@@ -1,0 +1,42 @@
+# RAG Fieldguide
+
+An interactive, self-paced course on retrieval-augmented generation.
+
+**[Open the course](https://sjortiz.github.io/rag-fieldguide/)**
+
+## What you can learn
+
+12 lessons cover RAG foundations, BM25, vector retrieval, Reciprocal Rank Fusion, Redis hybrid search, routing, graph expansion, Microsoft GraphRAG, Self-RAG, Adaptive-RAG, recovery paths, and evaluation.
+
+Each lesson has three sections: **Understand**, **Experiment**, and **Check yourself**. The experiments include adjustable scoring models, source selection, graph traversal, claim audits, and a capstone checklist with exportable notes.
+
+The Harbor case file is fictional. Retrieval outputs in the labs are teaching simulations, not live Redis or LLM responses. Research papers and official documentation are linked in the lessons. The full written course is available in [course.md](course.md).
+
+## Progress and notes
+
+Progress and capstone notes are stored in your browser's local storage. They are not sent to a server and do not sync across browsers or origins. Export notes from the capstone experiment to retain a separate copy.
+
+## Run locally
+
+This site uses HTML, CSS, and JavaScript with no build step.
+
+```sh
+python3 -m http.server 8000
+```
+
+Open http://localhost:8000 in a browser. Google Fonts are optional; the interface falls back to system fonts.
+
+## Publish
+
+GitHub Pages serves the root of the `main` branch. Changes pushed there publish automatically. `.nojekyll` keeps the site as plain static assets.
+
+## Files
+
+- `index.html`: page shell and navigation
+- `style.css`: responsive styling
+- `content.js`: complete lesson content
+- `app.js`: course navigation and browser-local progress
+- `labs.js`: interactive experiments, quizzes, and capstone
+- `course.md`: downloadable written course
+
+Optional WebMCP hooks are feature-detected and do not affect ordinary browser use. Their specialized browser runtime support has not been verified.
