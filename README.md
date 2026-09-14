@@ -4,6 +4,10 @@ An interactive, self-paced course on retrieval-augmented generation.
 
 **[Open the course](https://sjortiz.github.io/rag-fieldguide/)**
 
+## Start from zero
+
+**[RAG desde cero](https://sjortiz.github.io/rag-fieldguide/basics.html)** is a Spanish beginner track with six short pages: the core idea, the retrieval pipeline, a glossary, a source-selection exercise, use cases, and a three-question checkpoint. It needs no programming or AWS account. Its local progress is separate from the technical course. The existing 12-lesson course remains in English.
+
 ## What you can learn
 
 12 lessons cover RAG foundations, BM25, vector retrieval, Reciprocal Rank Fusion, Redis hybrid search, routing, graph expansion, Microsoft GraphRAG, Self-RAG, Adaptive-RAG, recovery paths, and evaluation.
@@ -41,6 +45,7 @@ GitHub Pages serves the root of the `main` branch. Changes pushed there publish 
 ## Files
 
 - `index.html`: page shell and navigation
+- `basics.html`, `basics.js`, `basics.css`: Spanish beginner track and guided exercises
 - `style.css`: responsive styling
 - `content.js`: complete lesson content
 - `practical.js`: paginated lessons, applications and pseudocode walkthroughs
