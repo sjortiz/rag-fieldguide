@@ -1,6 +1,6 @@
 # Build the RAG Fieldguide on AWS
 
-Every lesson now includes **Build on AWS · Architecture** and **Build on AWS · Implementation** pages. Use the **Build on AWS** button within a lesson to jump there. Build steps are interactive; expand the code and verification panels as you go.
+Every lesson now includes **Build on AWS · Architecture** and **Build on AWS · Implementation** pages. Use the **Build on AWS** button within a lesson to jump there. Build steps are interactive; expand the code and verification panels as you go. The **Build with** dropdown selects **Terraform**, **CloudFormation**, or **AWS CDK (Python)** and remembers your choice in this browser. Each option has matching examples and a downloadable Bedrock baseline. See [infrastructure prerequisites and instructions](infrastructure/README.md).
 
 These are educational deployment instructions. The public course does not connect to AWS. The Python starter calls an existing knowledge base and model when you run `ask`; `prepare` only creates local files. The guide was checked against official documentation in September 2026.
 

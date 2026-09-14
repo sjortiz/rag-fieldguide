@@ -1,0 +1,11 @@
+# Replace ALL placeholders. Values are identifiers, never access keys.
+aws_region              = "YOUR_REGION"
+knowledge_base_role_arn  = "YOUR_BEDROCK_SERVICE_ROLE_ARN"
+source_bucket_arn        = "YOUR_SOURCE_BUCKET_ARN"
+collection_arn           = "YOUR_OPENSEARCH_SERVERLESS_COLLECTION_ARN"
+vector_index_name       = "YOUR_PREPARED_INDEX_NAME"
+# Change these if your prepared index uses other field names.
+vector_field            = "embedding"
+text_field              = "text"
+metadata_field          = "metadata"
+source_prefix           = "harbor/"

@@ -18,6 +18,8 @@ The Harbor case file is fictional. Retrieval outputs in the labs are teaching si
 
 Start with [aws-guide.md](aws-guide.md) and [aws-starter.py](aws-starter.py). The starter prepares the public Harbor corpus locally, then can query your own existing Bedrock knowledge base and generation model. It does not provision AWS resources. No AWS calls run from this static website.
 
+The **Build with** dropdown offers **Terraform**, **CloudFormation** and **AWS CDK (Python)** across all AWS pages. It remembers the selected tool, updates code and instructions, and links to matching baseline templates. These require prepared S3, IAM and OpenSearch resources; see [infrastructure/README.md](infrastructure/README.md). Later lesson excerpts describe their additional dependencies.
+
 ## Progress and notes
 
 Progress and capstone notes are stored in your browser's local storage. They are not sent to a server and do not sync across browsers or origins. Export notes from the capstone experiment to retain a separate copy.
@@ -42,6 +44,8 @@ GitHub Pages serves the root of the `main` branch. Changes pushed there publish 
 - `style.css`: responsive styling
 - `content.js`: complete lesson content
 - `practical.js`: paginated lessons, applications and pseudocode walkthroughs
+- `iac.js`: infrastructure tool selection and lesson-specific examples
+- `infrastructure/`: equivalent Terraform, CloudFormation and CDK Python baseline downloads
 - `aws.js`: AWS architectures, interactive build steps and source references
 - `aws-guide.md`: downloadable AWS setup and implementation guide
 - `aws-starter.py`: local fixture generator and Bedrock Retrieve/Converse starter

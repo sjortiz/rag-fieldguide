@@ -1,0 +1,10 @@
+[
+  {"ParameterKey":"KnowledgeBaseRoleArn","ParameterValue":"YOUR_BEDROCK_SERVICE_ROLE_ARN"},
+  {"ParameterKey":"SourceBucketArn","ParameterValue":"YOUR_SOURCE_BUCKET_ARN"},
+  {"ParameterKey":"CollectionArn","ParameterValue":"YOUR_OPENSEARCH_SERVERLESS_COLLECTION_ARN"},
+  {"ParameterKey":"VectorIndexName","ParameterValue":"YOUR_PREPARED_INDEX_NAME"},
+  {"ParameterKey":"VectorField","ParameterValue":"embedding"},
+  {"ParameterKey":"TextField","ParameterValue":"text"},
+  {"ParameterKey":"MetadataField","ParameterValue":"metadata"},
+  {"ParameterKey":"SourcePrefix","ParameterValue":"harbor/"}
+]

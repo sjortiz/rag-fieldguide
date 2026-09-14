@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Harbor Bedrock baseline using prepared S3, IAM and OpenSearch resources.
+Parameters:
+  Name:
+    Type: String
+    Default: harbor-course
+  KnowledgeBaseRoleArn:
+    Type: String
+    Description: Existing Bedrock service role with source, model and vector-store access.
+  SourceBucketArn:
+    Type: String
+    Description: Existing S3 bucket containing C1-C7 and their metadata sidecars.
+  SourcePrefix:
+    Type: String
+    Default: harbor/
+  CollectionArn:
+    Type: String
+    Description: Existing OpenSearch Serverless vector collection ARN.
+  VectorIndexName:
+    Type: String
+    Description: Existing dedicated index with 1024-dimensional float vectors and a faiss engine.
+  VectorField:
+    Type: String
+    Default: embedding
+  TextField:
+    Type: String
+    Default: text
+  MetadataField:
+    Type: String
+    Default: metadata
+Resources:
+  KnowledgeBase:
+    Type: AWS::Bedrock::KnowledgeBase
+    Properties:
+      Name: !Ref Name
+      RoleArn: !Ref KnowledgeBaseRoleArn
+      KnowledgeBaseConfiguration:
+        Type: VECTOR
+        VectorKnowledgeBaseConfiguration:
+          EmbeddingModelArn: !Sub arn:${AWS::Partition}:bedrock:${AWS::Region}::foundation-model/amazon.titan-embed-text-v2:0
+          EmbeddingModelConfiguration:
+            BedrockEmbeddingModelConfiguration:
+              Dimensions: 1024
+      StorageConfiguration:
+        Type: OPENSEARCH_SERVERLESS
+        OpensearchServerlessConfiguration:
+          CollectionArn: !Ref CollectionArn
+          VectorIndexName: !Ref VectorIndexName
+          FieldMapping:
+            VectorField: !Ref VectorField
+            TextField: !Ref TextField
+            MetadataField: !Ref MetadataField
+  HarborSource:
+    Type: AWS::Bedrock::DataSource
+    Properties:
+      Name: harbor-public-records
+      KnowledgeBaseId: !Ref KnowledgeBase
+      DataDeletionPolicy: RETAIN
+      DataSourceConfiguration:
+        Type: S3
+        S3Configuration:
+          BucketArn: !Ref SourceBucketArn
+          InclusionPrefixes:
+            - !Ref SourcePrefix
+      VectorIngestionConfiguration:
+        ChunkingConfiguration:
+          ChunkingStrategy: NONE
+Outputs:
+  KnowledgeBaseId:
+    Value: !Ref KnowledgeBase
+  DataSourceId:
+    Value: !GetAtt HarborSource.DataSourceId
