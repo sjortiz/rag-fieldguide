@@ -8,11 +8,15 @@ An interactive, self-paced course on retrieval-augmented generation.
 
 12 lessons cover RAG foundations, BM25, vector retrieval, Reciprocal Rank Fusion, Redis hybrid search, routing, graph expansion, Microsoft GraphRAG, Self-RAG, Adaptive-RAG, recovery paths, and evaluation.
 
-Every lesson is split into smaller pages: a process diagram, the full explanation, a practical application, a step-through pseudocode example, and the remaining exercises and readings. The original lesson text and sources are retained in full.
+Every lesson is split into smaller pages: a process diagram, the full explanation, a practical application, a step-through pseudocode example, and the remaining exercises and readings. The original lesson text and sources are retained in full. Each lesson also includes two **Build on AWS** pages: an architecture diagram and interactive implementation steps with code, verification tasks and primary sources.
 
 Each lesson has three sections: **Understand**, **Experiment**, and **Check yourself**. The experiments include adjustable scoring models, source selection, graph traversal, claim audits, and a capstone checklist with exportable notes.
 
 The Harbor case file is fictional. Retrieval outputs in the labs are teaching simulations, not live Redis or LLM responses. Research papers and official documentation are linked in the lessons. The full written course is available in [course.md](course.md).
+
+## AWS companion
+
+Start with [aws-guide.md](aws-guide.md) and [aws-starter.py](aws-starter.py). The starter prepares the public Harbor corpus locally, then can query your own existing Bedrock knowledge base and generation model. It does not provision AWS resources. No AWS calls run from this static website.
 
 ## Progress and notes
 
@@ -37,7 +41,10 @@ GitHub Pages serves the root of the `main` branch. Changes pushed there publish 
 - `index.html`: page shell and navigation
 - `style.css`: responsive styling
 - `content.js`: complete lesson content
-- `practical.js`: concise applications and pseudocode walkthroughs
+- `practical.js`: paginated lessons, applications and pseudocode walkthroughs
+- `aws.js`: AWS architectures, interactive build steps and source references
+- `aws-guide.md`: downloadable AWS setup and implementation guide
+- `aws-starter.py`: local fixture generator and Bedrock Retrieve/Converse starter
 - `app.js`: course navigation and browser-local progress
 - `labs.js`: interactive experiments, quizzes, and capstone
 - `course.md`: downloadable written course

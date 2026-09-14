@@ -260,12 +260,14 @@ function renderPracticalLesson() {
     {name:'The concept',type:'reading',html:readings[0]},
     {name:'Practical application',type:'application'},
     {name:'Pseudocode walkthrough',type:'code'},
+    {name:'Build on AWS · Architecture',type:'aws-architecture'},
+    {name:'Build on AWS · Implementation',type:'aws-build'},
     ...readings.slice(1).map((html,i)=>({name:`Examples & reading ${i+1}`,type:'reading',html}))
   ];
   let page = Math.min(lessonPagePositions[id] || 0, pages.length-1);
   const changePage = next => { lessonPagePositions[id] = next; renderPracticalLesson(); $('#page-heading').focus(); };
   const current = pages[page];
-  $('#panel').innerHTML = `<div class="reading-navigation"><label for="reading-page">Within this lesson</label><select id="reading-page">${pages.map((p,i)=>`<option value="${i}" ${i===page?'selected':''}>${i+1}. ${escapeLessonText(p.name)}</option>`).join('')}</select><span class="page-counter">${page+1} / ${pages.length}</span></div><div class="reading-page-heading"><h2 id="page-heading" tabindex="-1">${escapeLessonText(current.name)}</h2><span class="eyebrow">${current.type==='reading'?'FULL LESSON':'WORKED EXAMPLE'}</span></div><div id="reading-content"></div><div class="reading-pagination"><button id="page-back" class="secondary" ${page===0?'disabled':''}>← Previous page</button><button id="page-next" class="primary">${page===pages.length-1?'Try the experiment →':'Next page →'}</button></div>`;
+  $('#panel').innerHTML = `<div class="reading-navigation"><label for="reading-page">Within this lesson</label><select id="reading-page">${pages.map((p,i)=>`<option value="${i}" ${i===page?'selected':''}>${i+1}. ${escapeLessonText(p.name)}</option>`).join('')}</select><span class="page-counter">${page+1} / ${pages.length}</span><button id="aws-shortcut" class="secondary aws-shortcut">Build on AWS ↗</button></div><div class="reading-page-heading"><h2 id="page-heading" tabindex="-1">${escapeLessonText(current.name)}</h2><span class="eyebrow">${current.type.startsWith('aws-')?'AWS BUILD GUIDE':current.type==='reading'?'FULL LESSON':'WORKED EXAMPLE'}</span></div><div id="reading-content"></div><div class="reading-pagination"><button id="page-back" class="secondary" ${page===0?'disabled':''}>← Previous page</button><button id="page-next" class="primary">${page===pages.length-1?'Try the experiment →':'Next page →'}</button></div>`;
   const content = $('#reading-content');
   if (current.type === 'diagram') {
     content.innerHTML = `${lessonDiagram(id)}<div class="page-keyidea"><span class="eyebrow">THE IDEA TO KEEP</span><p>${escapeLessonText(item.takeaway)}</p></div>`;
@@ -273,6 +275,8 @@ function renderPracticalLesson() {
     content.innerHTML = `<article class="paper">${current.html}</article>`;
   } else if (current.type === 'application') {
     content.innerHTML = `<div class="application-card"><span class="eyebrow">WHERE YOU WOULD USE THIS</span><h2>${escapeLessonText(item.use)}</h2><div class="example-pair"><div><span class="example-label">INPUT</span><p>${escapeLessonText(item.question)}</p></div><div><span class="example-label">DESIRED OUTPUT</span><p>${escapeLessonText(item.outcome)}</p></div></div></div><ol class="mini-flow">${item.flow.map((s,i)=>`<li><span>${i+1}</span>${escapeLessonText(s)}</li>`).join('')}</ol><p class="hint">The next page walks through the pseudocode. The Experiment tab lets you make the decisions yourself.</p>`;
+  } else if (current.type.startsWith('aws-')) {
+    renderAwsPage(id, current.type, content);
   } else {
     let step = -1;
     content.innerHTML = `<section class="walkthrough"><div class="walkthrough-heading"><p>Pseudocode · illustrative trace, not live model calls</p><span id="trace-count" class="badge">Ready</span></div><div class="code-lines" role="region" aria-label="Illustrative pseudocode" tabindex="0">${item.code.map((line,i)=>`<div class="code-line" data-code-line="${i}"><span class="line-number" aria-hidden="true">${i+1}</span><code>${escapeLessonText(line)}</code></div>`).join('')}</div><div class="trace-panel"><p id="trace-explanation" aria-live="polite">Step through the example to see what each operation contributes.</p><div class="trace-controls"><button id="trace-back" class="secondary" disabled>← Back</button><button id="trace-next" class="primary lime">Step through →</button><button id="trace-reset" class="quiet" disabled>Reset</button></div></div></section>`;
@@ -288,6 +292,7 @@ function renderPracticalLesson() {
     $('#trace-next').onclick=()=>{if(step<item.trace.length-1)step++;update()};
     $('#trace-reset').onclick=()=>{step=-1;update()};
   }
+  $('#aws-shortcut').onclick=()=>changePage(4);
   $('#reading-page').onchange=e=>changePage(+e.target.value);
   $('#page-back').onclick=()=>{if(page>0)changePage(page-1)};
   $('#page-next').onclick=()=>page<pages.length-1?changePage(page+1):changeTab('lab');
