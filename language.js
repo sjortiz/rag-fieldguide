@@ -7,6 +7,7 @@
   const normalize = text => text.replace(/\s+/g, ' ').trim();
   const originals = new WeakMap();
   const attributes = new WeakMap();
+  const codeOriginals = new WeakMap();
   const skip = 'script,style,pre,code,textarea,[contenteditable],[translate="no"],[data-no-translate]';
   const escapeRegex = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const catalogs = window.RAG_TRANSLATIONS;
@@ -58,7 +59,15 @@
       if (element.getAttribute(name) !== output) element.setAttribute(name, output);
       entry.applied = output;
     }
-    if (element.matches(skip)) return;
+    if (element.matches('code[data-localize-code]')) {
+      const entry = originalValue(element, element.textContent, codeOriginals);
+      const output = language === source ? entry.source : window.RAG_CODE_TRANSLATIONS?.[source]?.[entry.source] ?? entry.source;
+      if (element.textContent !== output) element.textContent = output;
+      entry.applied = output;
+      element.lang = language;
+      return;
+    }
+    if (element.matches(skip) && !(element.matches('pre') && element.querySelector('code[data-localize-code]'))) return;
     let run = [];
     const flush = () => { if (run.length) textRun(run, source); run = []; };
     for (const child of element.childNodes) {

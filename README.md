@@ -14,7 +14,7 @@ Use the **English / Español** dropdown in the header of either track. The choic
 
 The language is remembered in local storage. A shared link can override it with `?lang=en` or `?lang=es`, before the lesson hash. With no saved choice, the site uses the browser language when supported, then the page's original language. Navigation between the two tracks carries the choice in the link, including when storage is unavailable.
 
-Code/pseudocode, downloadable course documents and infrastructure templates, and linked source publications retain their original language. Personal notes are never translated. No translation API or account is required.
+Educational pseudocode switches languages too, including comments, explanatory names, and beginner examples. Executable code, downloadable course documents and infrastructure templates, and linked source publications retain their original language. Personal notes are never translated. No translation API or account is required.
 
 `translations.js` contains human-authored catalogs keyed by the original English and Spanish text. `language.js` localizes rendered text and accessibility labels without replacing interactive elements. When editing or adding course prose, update its corresponding catalog entry and run the translation checks:
 
@@ -64,7 +64,7 @@ GitHub Pages serves the root of the `main` branch. Changes pushed there publish 
 - `index.html`: page shell and navigation
 - `basics.html`, `basics.js`, `basics.css`, `basic-theory.js`: beginner track and guided exercises
 - `style.css`: responsive styling
-- `language.js`, `language.css`, `translations.js`: language selection and English/Spanish catalogs
+- `language.js`, `language.css`, `translations.js`, `code-translations.js`: language selection and English/Spanish catalogs
 - `tests/language.test.cjs`: translation coverage and interaction-state regression checks
 - `content.js`: complete lesson content
 - `practical.js`: paginated lessons, applications and pseudocode walkthroughs

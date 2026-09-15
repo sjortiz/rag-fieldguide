@@ -1213,7 +1213,7 @@ window.RAG_TRANSLATIONS = {
     "Query:": "Consulta:",
     "Language": "Idioma",
     "Language updated.": "Idioma actualizado.",
-    "Code, downloads, and source publications keep their original language.": "El código, las descargas y las publicaciones citadas conservan su idioma original.",
+    "Executable code, downloads, and source publications keep their original language.": "El código ejecutable, las descargas y las publicaciones citadas conservan su idioma original.",
     "6 guided steps": "6 pasos guiados",
     "RAG foundations process": "Proceso: Fundamentos de RAG",
     "BM25 process": "Proceso: BM25",

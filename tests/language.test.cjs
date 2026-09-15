@@ -48,7 +48,18 @@ function create(page, query, saved = {}, blocked = false) {
       for(const name of ['aria-label','title','placeholder','alt']) if(element.hasAttribute(name)){text=element.getAttribute(name);check()}
     }
     visit(document.documentElement);
+    const snippets = [...document.querySelectorAll('code[data-localize-code]')].map(node => {
+      const original = node.textContent;
+      assert(Object.hasOwn(ctx.RAG_CODE_TRANSLATIONS[source],original),'Every pseudocode example has a translation: '+original);
+      return {node, original, expected:ctx.RAG_CODE_TRANSLATIONS[source][original]};
+    });
+    const highlighted = document.querySelector('.current-line');
     ctx.RAGLanguage.set(source==='en'?'es':'en',false);
+    for (const {node,original,expected} of snippets) {
+      assert.equal(node.textContent,expected);
+      assert.deepEqual(node.textContent.split('\n').map(line=>line.match(/^\s*/)[0]),original.split('\n').map(line=>line.match(/^\s*/)[0]),'Pseudocode indentation and line count are preserved');
+    }
+    assert.equal(document.querySelector('.current-line'),highlighted,'Language changes preserve the active walkthrough line');
   }
   return {ctx,document,run,storage,audit};
 }
@@ -116,6 +127,11 @@ assert.equal(before,basic.run('JSON.stringify([basicState,basicLab,basicQuizAnsw
 assert.match(basic.document.querySelector('#basic-answer').textContent,/30 days/);
 assert.equal(basic.document.querySelector('#basic-counter').textContent,'STEP 4 OF 6');
 assert.equal(basic.document.querySelector('#basic-question').value,'deadline');
+const beginnerCode=basic.document.querySelector('code[data-localize-code]');
+assert.match(beginnerCode.textContent,/^question = receive_question\(\)/);
+assert.match(beginnerCode.textContent,/\n    answer_with_citations/);
+basic.ctx.RAGLanguage.set('es');assert.match(beginnerCode.textContent,/^pregunta = recibir_pregunta\(\)/);
+basic.ctx.RAGLanguage.set('en');assert.match(beginnerCode.textContent,/^question = receive_question\(\)/);
 assert(basic.document.querySelector('.sidebar a[href*="index.html"]').href.includes('lang=en'));
 const persisted=create('basics.html','',{'rag-fieldguide-language':'es'});assert.equal(persisted.ctx.RAGLanguage.current,'es');
 const override=create('basics.html','?lang=en',{'rag-fieldguide-language':'es'});assert.equal(override.ctx.RAGLanguage.current,'en');
