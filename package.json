@@ -1,0 +1,10 @@
+{
+  "name": "rag-fieldguide",
+  "private": true,
+  "scripts": {
+    "test": "node tests/language.test.cjs"
+  },
+  "devDependencies": {
+    "linkedom": "0.18.12"
+  }
+}

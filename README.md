@@ -6,7 +6,24 @@ An interactive, self-paced course on retrieval-augmented generation.
 
 ## Start from zero
 
-**[RAG desde cero](https://sjortiz.github.io/rag-fieldguide/basics.html)** is a Spanish beginner track with six short pages: the core idea, the retrieval pipeline, a glossary, a source-selection exercise, use cases, and a three-question checkpoint. It needs no programming or AWS account. Each page starts with a developed explanation; a separate “Ejemplo y práctica” tab contains the interactive activity. Its local progress is separate from the technical course. The existing 12-lesson course remains in English.
+**[RAG desde cero](https://sjortiz.github.io/rag-fieldguide/basics.html)** is a beginner track available in English and Spanish with six short pages: the core idea, the retrieval pipeline, a glossary, a source-selection exercise, use cases, and a three-question checkpoint. It needs no programming or AWS account. Each page starts with a developed explanation; a separate “Ejemplo y práctica” tab contains the interactive activity. Its local progress is separate from the technical course. The 12-lesson course is also available in both languages.
+
+## Languages
+
+Use the **English / Español** dropdown in the header of either track. The choice applies to lesson explanations, diagrams, exercises, feedback, navigation, and AWS guidance. Switching languages preserves the current page, selected infrastructure tool, exercise inputs, progress, and personal notes.
+
+The language is remembered in local storage. A shared link can override it with `?lang=en` or `?lang=es`, before the lesson hash. With no saved choice, the site uses the browser language when supported, then the page's original language. Navigation between the two tracks carries the choice in the link, including when storage is unavailable.
+
+Code/pseudocode, downloadable course documents and infrastructure templates, and linked source publications retain their original language. Personal notes are never translated. No translation API or account is required.
+
+`translations.js` contains human-authored catalogs keyed by the original English and Spanish text. `language.js` localizes rendered text and accessibility labels without replacing interactive elements. When editing or adding course prose, update its corresponding catalog entry and run the translation checks:
+
+```sh
+npm ci
+npm test
+```
+
+These development-only checks exercise the DOM in Node.js; the published site still requires no dependencies or build step.
 
 ## What you can learn
 
@@ -45,8 +62,10 @@ GitHub Pages serves the root of the `main` branch. Changes pushed there publish 
 ## Files
 
 - `index.html`: page shell and navigation
-- `basics.html`, `basics.js`, `basics.css`, `basic-theory.js`: Spanish beginner track and guided exercises
+- `basics.html`, `basics.js`, `basics.css`, `basic-theory.js`: beginner track and guided exercises
 - `style.css`: responsive styling
+- `language.js`, `language.css`, `translations.js`: language selection and English/Spanish catalogs
+- `tests/language.test.cjs`: translation coverage and interaction-state regression checks
 - `content.js`: complete lesson content
 - `practical.js`: paginated lessons, applications and pseudocode walkthroughs
 - `iac.js`: infrastructure tool selection and lesson-specific examples
