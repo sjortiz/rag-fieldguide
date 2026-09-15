@@ -6,13 +6,13 @@ An interactive, self-paced course on retrieval-augmented generation.
 
 ## Start from zero
 
-**[RAG desde cero](https://sjortiz.github.io/rag-fieldguide/basics.html)** is a Spanish beginner track with six short pages: the core idea, the retrieval pipeline, a glossary, a source-selection exercise, use cases, and a three-question checkpoint. It needs no programming or AWS account. Its local progress is separate from the technical course. The existing 12-lesson course remains in English.
+**[RAG desde cero](https://sjortiz.github.io/rag-fieldguide/basics.html)** is a Spanish beginner track with six short pages: the core idea, the retrieval pipeline, a glossary, a source-selection exercise, use cases, and a three-question checkpoint. It needs no programming or AWS account. Each page starts with a developed explanation; a separate “Ejemplo y práctica” tab contains the interactive activity. Its local progress is separate from the technical course. The existing 12-lesson course remains in English.
 
 ## What you can learn
 
 12 lessons cover RAG foundations, BM25, vector retrieval, Reciprocal Rank Fusion, Redis hybrid search, routing, graph expansion, Microsoft GraphRAG, Self-RAG, Adaptive-RAG, recovery paths, and evaluation.
 
-Every lesson is split into smaller pages: a process diagram, the full explanation, a practical application, a step-through pseudocode example, and the remaining exercises and readings. The original lesson text and sources are retained in full. Each lesson also includes two **Build on AWS** pages: an architecture diagram and interactive implementation steps with code, verification tasks and primary sources.
+Every lesson opens with its original explanation in consecutive reading pages. “Read full explanation” displays all of the lesson text together, including its original sources and exercises. Separate shortcuts lead to diagrams/examples and AWS implementation. Supporting pages include: a process diagram, the full explanation, a practical application, a step-through pseudocode example, and the remaining exercises and readings. The original lesson text and sources are retained in full. Each lesson also includes two **Build on AWS** pages: an architecture diagram and interactive implementation steps with code, verification tasks and primary sources.
 
 Each lesson has three sections: **Understand**, **Experiment**, and **Check yourself**. The experiments include adjustable scoring models, source selection, graph traversal, claim audits, and a capstone checklist with exportable notes.
 
@@ -45,7 +45,7 @@ GitHub Pages serves the root of the `main` branch. Changes pushed there publish 
 ## Files
 
 - `index.html`: page shell and navigation
-- `basics.html`, `basics.js`, `basics.css`: Spanish beginner track and guided exercises
+- `basics.html`, `basics.js`, `basics.css`, `basic-theory.js`: Spanish beginner track and guided exercises
 - `style.css`: responsive styling
 - `content.js`: complete lesson content
 - `practical.js`: paginated lessons, applications and pseudocode walkthroughs

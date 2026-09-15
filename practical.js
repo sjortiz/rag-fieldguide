@@ -230,6 +230,7 @@ const LESSON_DIAGRAMS = [
 ];
 
 const lessonPagePositions = {};
+const fullLessonViews = {};
 const readingPageCache = {};
 
 function readingPages(id) {
@@ -256,18 +257,19 @@ function lessonDiagram(id) {
 function renderPracticalLesson() {
   const id = lesson, item = PRACTICAL[id-1], readings = readingPages(id);
   const pages = [
+    ...readings.map((html,i)=>({name:`Explanation · ${i+1} of ${readings.length}`,type:'reading',html})),
     {name:'The big picture',type:'diagram'},
-    {name:'The concept',type:'reading',html:readings[0]},
     {name:'Practical application',type:'application'},
     {name:'Pseudocode walkthrough',type:'code'},
     {name:'Build on AWS · Architecture',type:'aws-architecture'},
-    {name:'Build on AWS · Implementation',type:'aws-build'},
-    ...readings.slice(1).map((html,i)=>({name:`Examples & reading ${i+1}`,type:'reading',html}))
+    {name:'Build on AWS · Implementation',type:'aws-build'}
   ];
-  let page = Math.min(lessonPagePositions[id] || 0, pages.length-1);
-  const changePage = next => { lessonPagePositions[id] = next; renderPracticalLesson(); $('#page-heading').focus(); };
-  const current = pages[page];
-  $('#panel').innerHTML = `<div class="reading-navigation"><label for="reading-page">Within this lesson</label><select id="reading-page">${pages.map((p,i)=>`<option value="${i}" ${i===page?'selected':''}>${i+1}. ${escapeLessonText(p.name)}</option>`).join('')}</select><span class="page-counter">${page+1} / ${pages.length}</span><button id="aws-shortcut" class="secondary aws-shortcut">Build on AWS ↗</button></div><div class="reading-page-heading"><h2 id="page-heading" tabindex="-1">${escapeLessonText(current.name)}</h2><span class="eyebrow">${current.type.startsWith('aws-')?'AWS BUILD GUIDE':current.type==='reading'?'FULL LESSON':'WORKED EXAMPLE'}</span></div><div id="reading-content"></div><div class="reading-pagination"><button id="page-back" class="secondary" ${page===0?'disabled':''}>← Previous page</button><button id="page-next" class="primary">${page===pages.length-1?'Try the experiment →':'Next page →'}</button></div>`;
+  const examplePage = readings.length, awsPage = readings.length + 3;
+  const page = Math.min(lessonPagePositions[id] || 0, pages.length-1);
+  const fullView = fullLessonViews[id] === true;
+  const changePage = next => { fullLessonViews[id] = false; lessonPagePositions[id] = next; renderPracticalLesson(); $('#page-heading').focus(); };
+  const current = fullView ? {name:'Full explanation',type:'reading',html:COURSE[id-1].html} : pages[page];
+  $('#panel').innerHTML = `<nav class="lesson-section-shortcuts" aria-label="Lesson content"><button id="explanation-shortcut" class="secondary" aria-pressed="${current.type==='reading'}">Explanation</button><button id="examples-shortcut" class="secondary" aria-pressed="${['diagram','application','code'].includes(current.type)}">Diagrams & examples</button><button id="aws-shortcut" class="secondary aws-shortcut" aria-pressed="${current.type.startsWith('aws-')}">Build on AWS</button></nav><div class="reading-navigation"><label for="reading-page">Within this lesson</label><select id="reading-page">${fullView?'<option value="full" selected>Full explanation · all reading</option>':''}${pages.map((p,i)=>`<option value="${i}" ${!fullView&&i===page?'selected':''}>${i+1}. ${escapeLessonText(p.name)}</option>`).join('')}</select><span class="page-counter">${fullView?`${readings.length} reading pages together`:`${page+1} / ${pages.length}`}</span></div><div class="reading-page-heading"><h2 id="page-heading" tabindex="-1">${escapeLessonText(current.name)}</h2><button id="full-lesson" class="quiet">${fullView?'Read in smaller pages':'Read full explanation'}</button></div><div id="reading-content"></div><div class="reading-pagination"><button id="page-back" class="secondary" ${!fullView&&page===0?'disabled':''}>${fullView?'← Back to paged reading':'← Previous page'}</button><button id="page-next" class="primary">${fullView?'See diagram & examples →':page===pages.length-1?'Try the experiment →':'Next page →'}</button></div>`;
   const content = $('#reading-content');
   if (current.type === 'diagram') {
     content.innerHTML = `${lessonDiagram(id)}<div class="page-keyidea"><span class="eyebrow">THE IDEA TO KEEP</span><p>${escapeLessonText(item.takeaway)}</p></div>`;
@@ -292,8 +294,11 @@ function renderPracticalLesson() {
     $('#trace-next').onclick=()=>{if(step<item.trace.length-1)step++;update()};
     $('#trace-reset').onclick=()=>{step=-1;update()};
   }
-  $('#aws-shortcut').onclick=()=>changePage(4);
-  $('#reading-page').onchange=e=>changePage(+e.target.value);
-  $('#page-back').onclick=()=>{if(page>0)changePage(page-1)};
-  $('#page-next').onclick=()=>page<pages.length-1?changePage(page+1):changeTab('lab');
+  $('#explanation-shortcut').onclick=()=>changePage(0);
+  $('#examples-shortcut').onclick=()=>changePage(examplePage);
+  $('#aws-shortcut').onclick=()=>changePage(awsPage);
+  $('#full-lesson').onclick=()=>{fullLessonViews[id]=!fullView;if(fullView)lessonPagePositions[id]=0;renderPracticalLesson();$('#page-heading').focus()};
+  $('#reading-page').onchange=e=>{if(e.target.value!=='full')changePage(+e.target.value)};
+  $('#page-back').onclick=()=>{if(fullView)changePage(0);else if(page>0)changePage(page-1)};
+  $('#page-next').onclick=()=>fullView?changePage(examplePage):page<pages.length-1?changePage(page+1):changeTab('lab');
 }
